@@ -12,7 +12,7 @@ public class PrimaryAgent extends Agent {
 	int size1x = 0;
 	int size1y = 0;
 	int pAgentSize = 25;
-	boolean goalFound, terminate;
+	boolean goalFound = false, terminate = false;
 	
 	int loopKey;
 	String loopValue;
@@ -28,30 +28,20 @@ public class PrimaryAgent extends Agent {
 	}
 	
 	public void displayPrimaryAgent(){
+		super.parent.fill(0,0,200);
 		super.parent.rect(size1x, size1y, pAgentSize, pAgentSize);
-		super.parent.fill(100,100,100);
 	}
 	
-
-	public void basicSearch(HashMap<Integer, String> oSet){
-		System.out.println("Step A");
-		displayPrimaryAgent();
-		while(size1x <= 500 && size1y <= 500){
+	public void basicSearch(){
+		while(!goalFound){
 			size1x += 25;
-			System.out.println("Step B");
 			if(size1x >= 500){
 				size1x = 0;
 				size1y += 25;
-				System.out.println("Step C");
 			}
 			if(size1x == goalNodeX && size1y == goalNodeY){
 				goalFound = true;
-				terminate = true;
 				System.out.println("Goal Found");
-			}
-			if(oSet.isEmpty()){
-				System.out.println("Cannot Locate Goal Rationally OR Open Set Cannot Be Accessed");
-				terminate = true;
 			}
 		}
 	}
@@ -71,6 +61,7 @@ public class PrimaryAgent extends Agent {
 	public void setGoal(int gX, int gY){
 		goalNodeX = gX;
 		goalNodeY = gY;
+		
 	}
 	
 	public int getLocationX(){
@@ -79,6 +70,32 @@ public class PrimaryAgent extends Agent {
 	
 	public int getLocationY(){
 		return size1y;
+	}
+	
+	public void hexSearchNoDTASTC(){
+		size1x += 25;
+		if(size1x >= 500){
+			size1y += 25;
+			size1x = 0;
+		}
+	}
+	
+	public void hexSearch(ArrayList<Integer> x, ArrayList<Integer> y){
+		for(int i = 0; i< y.size(); i++){
+			System.out.println("yAxis");
+			for(int j = 0; j < x.size(); j++){
+				System.out.println("xAxis");
+				size1x = x.get(j);
+				size1y = y.get(i);
+			}
+		}
+	}
+	
+	public int getGoalX(int gX){
+		return gX;
+	}
+	public int getGoalY(int gY){
+		return gY;
 	}
 
 	

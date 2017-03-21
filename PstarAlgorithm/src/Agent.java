@@ -6,7 +6,6 @@ public class Agent{
 	
 	int startAgentX, startAgentY, sizeAgent;
 	
-	
 	PApplet parent;
 	
 	Agent(PApplet p, int sAX, int sAY, int aSize){
@@ -16,8 +15,8 @@ public class Agent{
 	}
 	
 	void displayAgent(){
+		parent.fill(0,200,0);
 		parent.rect(startAgentX,startAgentY,sizeAgent,sizeAgent);
-		parent.fill(100,100,100);
 	}
 	
 	

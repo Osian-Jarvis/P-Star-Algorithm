@@ -1,6 +1,8 @@
 import java.util.*;
+import processing.core.PApplet;
 
-public class SearchSpace {
+
+public class SearchSpace extends PApplet {
 
 	public HashMap<Integer, String> gridStructure = new HashMap<Integer, String>(400);
 	int gridSpaceSize = 400;
@@ -9,10 +11,14 @@ public class SearchSpace {
 	int goalAreaX = 300;
 	int goalAreaY = 300;
 	int counter = 0;
+	int hexSize = 25;
+	
+	PApplet parent;
 
 
-	SearchSpace(HashMap<Integer, String> set){
+	SearchSpace(PApplet p,HashMap<Integer, String> set){
 		gridStructure = set;
+		parent = p;
 	}
 	
 	public HashMap<Integer, String> generateDataStructure(){
@@ -37,5 +43,33 @@ public class SearchSpace {
 		
 		return goalAreaY;
 	}
+	
+	public int[][] closedLocationsTest(){
+		
+		//int isClosed = 0;
+		
+		int[][] locs = new int [20][20];
+		
+		for(int i = 0; i < 20; i++){
+			int lastNumber = 0;
+			for(int j = 0; j < 20; j++){
+				locs[i][j] = 0+lastNumber;
+				lastNumber += 25;
+			}
+		}
+		System.out.println(Arrays.deepToString(locs));
+		return locs;
+	}
+	
+	public void closedHex(){
+		parent.fill(122);
+		parent.rect(350, 400, hexSize, hexSize);
+	}
+	public void displayGoalZone(){
+		parent.fill(244,0,0);
+		parent.rect(goalAreaX, goalAreaY, hexSize, hexSize);
+	}
+	
+	
 	
 }
