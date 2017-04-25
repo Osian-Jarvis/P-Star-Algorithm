@@ -3,6 +3,7 @@ import processing.core.PApplet;
 public class SafeHex extends PApplet {
 	int locationX, locationY, safeHexSize;
 	PApplet parent;
+	
 	SafeHex(PApplet p, int locX, int locY, int hexSize){
 		locationX = locX;
 		locationY = locY;

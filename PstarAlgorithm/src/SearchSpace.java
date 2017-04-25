@@ -8,8 +8,8 @@ public class SearchSpace extends PApplet {
 	int gridSpaceSize = 400;
 	int lastNumber = 0;
 	int nextNumber = 25;
-	int goalAreaX = 300;
-	int goalAreaY = 300;
+	int goalAreaX = 450;
+	int goalAreaY = 450;
 	int counter = 0;
 	int hexSize = 25;
 	
@@ -66,7 +66,7 @@ public class SearchSpace extends PApplet {
 		parent.rect(350, 400, hexSize, hexSize);
 	}
 	public void displayGoalZone(){
-		parent.fill(244,0,0);
+		parent.fill(188,0,188);
 		parent.rect(goalAreaX, goalAreaY, hexSize, hexSize);
 	}
 	

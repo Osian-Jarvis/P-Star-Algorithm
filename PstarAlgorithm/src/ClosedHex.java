@@ -6,11 +6,13 @@ public class ClosedHex extends PApplet  {
 	
 	int locationX, locationY;
 	int closedHexSize = 25;
-	ClosedHex(PApplet p, int locX, int locY, int hexSize){
+	boolean closed = true;
+	ClosedHex(PApplet p, int locX, int locY, int hexSize, boolean c){
 		locationX = locX;
 		locationY = locY;
 		closedHexSize = hexSize;
 		parent = p;
+		closed = c;
 	}
 	
 	public void displayClosedHex(){
@@ -24,7 +26,4 @@ public class ClosedHex extends PApplet  {
 	public int getlocY(){
 		return locationY;
 	}
-	
-	
-	
 }

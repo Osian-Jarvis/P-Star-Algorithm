@@ -31,6 +31,11 @@ public class PrimaryAgent extends Agent {
 		super.parent.fill(0,0,200);
 		super.parent.rect(size1x, size1y, pAgentSize, pAgentSize);
 	}
+	public void displayPrimaryAgentPath(){
+		super.parent.fill(0,150,150);
+		super.parent.rect(size1x, size1y, pAgentSize, pAgentSize);
+
+	}
 	
 	public void basicSearch(){
 		while(!goalFound){
