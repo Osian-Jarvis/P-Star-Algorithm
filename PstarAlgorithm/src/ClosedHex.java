@@ -6,17 +6,17 @@ public class ClosedHex extends PApplet  {
 	
 	int locationX, locationY;
 	int closedHexSize = 25;
-	boolean closed = true;
-	ClosedHex(PApplet p, int locX, int locY, int hexSize, boolean c){
+	int colourValue;
+	ClosedHex(PApplet p, int locX, int locY, int hexSize, int cV){
 		locationX = locX;
 		locationY = locY;
 		closedHexSize = hexSize;
 		parent = p;
-		closed = c;
+		colourValue = cV;
 	}
 	
 	public void displayClosedHex(){
-		parent.fill(122);
+		parent.fill(colourValue);
 		parent.rect(locationX, locationY, closedHexSize, closedHexSize);
 	}
 	

@@ -19,7 +19,7 @@ public class Operations extends PApplet{
 	int numberOfHostiles = 1;
 	Random rn = new Random();
 	PrimaryAgent primaryAgent = new PrimaryAgent(this, 0, 0, 25);
-	SearchSpace grid = new SearchSpace(this, gSet);
+	SearchSpace grid = new SearchSpace(this, 450,450);
 	SafeHex safeTest = new SafeHex(this, 50,50, 25);
 	int[][] closedLocs = new int[20][20];
 	
@@ -33,7 +33,6 @@ public class Operations extends PApplet{
 	
 	public void setup(){
 		frameRate(15);
-		closedHexList.add(new ClosedHex(this,75,75,25, true));
 		//safeTest.displaySafeHex();
 		//primaryAgent.setupOpenSet(grid.generateDataStructure());
 		primaryAgent.setGoal(grid.getGoalX(), grid.getGoalY());
@@ -44,36 +43,24 @@ public class Operations extends PApplet{
 		safeHexList = collectSafeHexs(closedHexList);
 		dangerHexList = collectDangerHexs(closedHexList, safeHexList);
 		hostileAgentGenerator();
-		//System.out.println(safeHexList.size());
-		//System.out.println(closedHexList.size());
+		agentPathList.add(new PrimaryAgent(this, primaryAgent.size1x, primaryAgent.size1y, 25));
 
 	}
 	
 	public void draw(){
 		background(255);
-		//closedHexList.add(closedTest);
-		//collisionTest(closedHexList, safeHexList);
-		if(xMoved == true || yMoved == true){
-			counter++;
-		}
 		grid.displayGoalZone();
-		for(SafeHex sh: safeHexList){
-			sh.displaySafeHex();
-			//closedTest.displayClosedHex();
-		}
 		for(ClosedHex ch: closedHexList){
 			ch.displayClosedHex();
-			//safeTest.displaySafeHex();
+		}
+		for(SafeHex sh: safeHexList){
+			sh.displaySafeHex();
 		}
 		for(DangerHex dh: dangerHexList){
 			dh.displayDangerHex();
 		}
 		primaryAgent.displayPrimaryAgent();
 		gridHexLineGenerator();
-		//primaryAgent.basicSearch();
-		//primaryAgent.hexSearchNoDTASTC();
-		//primaryAgent.hexSearch(xSpaces, ySpaces);
-		//collision();
 		hostileAgentMovement();
 		safeSearchTest();
 		primaryAgentHostileAgentDetection();
@@ -81,6 +68,8 @@ public class Operations extends PApplet{
 		primaryAgentMoveY();
 		agentEdgeCollision();
 		completeChecks();
+		System.out.println(counter);
+		System.out.println(agentPathList.size());
 	}
 	
 	
@@ -102,8 +91,8 @@ public class Operations extends PApplet{
 	public void completeChecks(){
 		if(primaryAgent.size1x == goalZoneX && primaryAgent.size1y == goalZoneY){
 			System.out.println("Search Complete Goal Found!");
-			System.out.println(counter + 1);
-			//System.out.println(agentPathList.size());
+			System.out.println("Counter " + counter);
+			System.out.println("Agent Steps " + agentPathList.size());
 			printAgentPath();
 			//System.exit(0);
 			frameRate(0);
@@ -131,7 +120,7 @@ public class Operations extends PApplet{
 		for(int i = 0; i < 20; i++){
 			posGeneratorX = randomNumberGenerator();
 			posGeneratorY = randomNumberGenerator();
-			hexListClosed.add(new ClosedHex(this, posGeneratorX*25, posGeneratorY*25, 25, true));
+			hexListClosed.add(new ClosedHex(this, posGeneratorX*25, posGeneratorY*25, 25, 122));
 			//System.out.println("Closed Hex Locations = " + posGeneratorX + " " + posGeneratorY);
 			if(posGeneratorX*25 == primaryAgent.getLocationX() && posGeneratorY*25 == primaryAgent.getLocationY() || posGeneratorX*25 == grid.getGoalX() && posGeneratorY*25 == grid.getGoalY()){
 				hexListClosed.remove(i);
@@ -148,15 +137,12 @@ public class Operations extends PApplet{
 		
 		int posGeneratorX, posGeneratorY;
 
-		for(int i = 0; i < 20; i++){
+		for(ClosedHex ch: closedHexList){
 		posGeneratorX = randomNumberGenerator();
 		posGeneratorY = randomNumberGenerator();
+		if(posGeneratorX*25 != ch.getlocX() && posGeneratorY*25 != ch.getlocY() || posGeneratorX*25 != primaryAgent.getLocationX() && posGeneratorY*25 != primaryAgent.getLocationY() || posGeneratorX*25 != grid.getGoalX() && posGeneratorY*25 != grid.getGoalY()) {
 		hexListSafe.add(new SafeHex(this, posGeneratorX*25, posGeneratorY*25, 25));
-			if(posGeneratorX*25 == closedHexList.get(i).getlocX() && posGeneratorY*25 == closedHexList.get(i).getlocY() || posGeneratorX*25 == primaryAgent.getLocationX() && posGeneratorY*25 == primaryAgent.getLocationY() || posGeneratorX*25 == grid.getGoalX() && posGeneratorY*25 == grid.getGoalY()) {
-				hexListSafe.remove(i);
-				i -= 1;
-				System.out.println("Goal or Start Location Insecure Reattempting");
-			}
+		}
 		}
 		System.out.println("Safe Hexs Generated!");
 		return hexListSafe;
@@ -354,19 +340,19 @@ public class Operations extends PApplet{
 		//System.out.println("Goal X Axis: " + goalZoneX);
 		//System.out.println("Primary Agent X Location: " + primaryAgent.size1x);
 		if(primaryAgent.size1x < goalZoneX && xMoved == false){
-			counter++;
 			primaryAgent.size1x += 25;
 			xMoved = true;
-			agentPathList.add(new PrimaryAgent(this, primaryAgent.getLocationX(), primaryAgent.getLocationY(), 25));
 		}
 		if(primaryAgent.size1x > goalZoneX && xMoved == false){
-			counter++;
 			primaryAgent.size1x -= 25;
 			xMoved = true;
-			agentPathList.add(new PrimaryAgent(this, primaryAgent.getLocationX(), primaryAgent.getLocationY(), 25));
 		}
 		if(primaryAgent.size1x == goalZoneX){
 			xMoved = true;
+		}
+		if(xMoved == true){
+			counter++;
+			agentPathList.add(new PrimaryAgent(this, primaryAgent.getLocationX(), primaryAgent.getLocationY(), 25));
 		}
 		
 	}
@@ -379,17 +365,19 @@ public class Operations extends PApplet{
 		primaryAgent.size1y += 25;
 		xMoved = false;
 		yMoved = true;
-		agentPathList.add(new PrimaryAgent(this, primaryAgent.getLocationX(), primaryAgent.getLocationY(), 25));
 		}
 		if(primaryAgent.size1y > goalZoneY && xMoved == true){
 		primaryAgent.size1y -= 25;
 		xMoved = false;
 		yMoved = true;
-		agentPathList.add(new PrimaryAgent(this, primaryAgent.getLocationX(), primaryAgent.getLocationY(), 25));
 		}
 		if(primaryAgent.size1y == goalZoneY){
 		 xMoved = false;
 		 yMoved = true;
+		}
+		if(yMoved == true){
+		counter++;
+		agentPathList.add(new PrimaryAgent(this, primaryAgent.getLocationX(), primaryAgent.getLocationY(), 25));
 		}
 	}
 	public void agentEdgeCollision(){

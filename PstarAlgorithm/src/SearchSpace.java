@@ -10,28 +10,17 @@ public class SearchSpace extends PApplet {
 	int nextNumber = 25;
 	int goalAreaX = 450;
 	int goalAreaY = 450;
+	int colourValue;
 	int counter = 0;
 	int hexSize = 25;
 	
 	PApplet parent;
 
 
-	SearchSpace(PApplet p,HashMap<Integer, String> set){
-		gridStructure = set;
+	SearchSpace(PApplet p, int gX, int gY){
 		parent = p;
-	}
-	
-	public HashMap<Integer, String> generateDataStructure(){
-		
-		HashMap<Integer, String> gridS = new HashMap<Integer, String>();
-		
-		for(int i = 0; i < 400; i++){
-			gridS.put(i, "neutral");
-		}
-		System.out.println("Grid Structure Inialized");
-		System.out.println(gridS.toString());
-		
-		return gridS;
+		goalAreaX = gX;
+		goalAreaY = gY;
 	}
 	
 	public int getGoalX(){
@@ -62,7 +51,7 @@ public class SearchSpace extends PApplet {
 	}
 	
 	public void closedHex(){
-		parent.fill(122);
+		parent.fill(colourValue);
 		parent.rect(350, 400, hexSize, hexSize);
 	}
 	public void displayGoalZone(){
